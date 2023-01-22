@@ -1750,7 +1750,7 @@ PrefabInstance:
       objectReference: {fileID: 189806006}
     - target: {fileID: 4946997301087148070, guid: 84456207daf5f124780efcee8345edea, type: 3}
       propertyPath: BallthrowForce
-      value: 875
+      value: 865
       objectReference: {fileID: 0}
     - target: {fileID: 4946997301087148090, guid: 84456207daf5f124780efcee8345edea, type: 3}
       propertyPath: m_Name
