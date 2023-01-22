@@ -13,6 +13,10 @@ public class BasketBallController : MonoBehaviour
     public Transform _Target;
 
     private bool IsBallInHands = true;
+    private bool IsBallFlying = false;
+    private float T;
+    [SerializeField]private float duration = 1f;
+    [SerializeField]private float VectorArc = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +44,47 @@ public class BasketBallController : MonoBehaviour
                 Player.transform.LookAt(_Target.parent.position);
             }
 
+            // throw Ball
+            if(Input.GetMouseButton(1))
+            {
+                IsBallInHands = false;
+                //throw ball
+                IsBallFlying = true;
+                T= 0f;
+            }
         }
-        
+
+        //Ball is in the air
+        if(IsBallFlying)
+        {
+            T += Time.deltaTime;
+            float t01 = T /duration;
+            Vector3 Pos_A = PosOverHead.position;
+            Vector3 Pos_B = _Target.position;
+            Vector3 pos = Vector3.Lerp(Pos_A,Pos_B,t01);
+
+            //Arc
+            Vector3 Arc = Vector3.up * VectorArc * Mathf.Sin(t01 *3.14f);
+            
+            Ball.position = pos + Arc;
+
+            //ball is at target
+
+            if(t01>= 1)
+            {
+                IsBallFlying= false;
+                Ball.GetComponentInChildren<Rigidbody>().isKinematic = false;
+            }
+        }
     }
 
+    public void PickUpBall()
+    {
+        if(!IsBallInHands && !IsBallFlying)
+        {
+            IsBallInHands = true;
+            Ball.GetComponentInChildren<Rigidbody>().isKinematic = true;
+            
+        }
+    }
 }

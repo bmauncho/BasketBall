@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private Vector3 _moveVector;
+    public GameObject ballController;
 
     private void Awake()
     {
@@ -46,5 +47,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _rigidbody.MovePosition(_rigidbody.position + _moveVector);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        Debug.Log("COLLISION");
+        if(other.GetComponent<Ball>() != null)
+        {
+            ballController.GetComponentInChildren<BasketBallController>().PickUpBall();
+        }
     }
 }
