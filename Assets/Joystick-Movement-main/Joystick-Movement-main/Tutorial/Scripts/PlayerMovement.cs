@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private FloatingJoystick _joystick;
 
-    //[SerializeField] private AnimatorController _animatorController;
+    [SerializeField] private Animator _animator;
 
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotateSpeed;
@@ -37,13 +37,16 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 direction = Vector3.RotateTowards(transform.forward, _moveVector, _rotateSpeed * Time.deltaTime, 0.0f);
             transform.rotation = Quaternion.LookRotation(direction);
+            ballController.GetComponentInChildren<BasketBallController>().DribbleBall();
 
-            //_animatorController.PlayRun();
+            _animator.SetBool("Run",true);
         }
 
         else if(_joystick.Horizontal == 0 && _joystick.Vertical == 0)
         {
-            //_animatorController.PlayIdle();
+            ballController.GetComponentInChildren<BasketBallController>().ShootPos();
+             _animator.SetBool("Run",false);
+            _animator.Play("Idle");
         }
 
         _rigidbody.MovePosition(_rigidbody.position + _moveVector);

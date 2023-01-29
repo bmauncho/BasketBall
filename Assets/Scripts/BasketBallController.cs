@@ -26,33 +26,7 @@ public class BasketBallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(IsBallInHands)
-        {
-            if(Input.GetMouseButton(0))
-            {
-                // Dribble
-                Ball.position = PosDribble.position+ Vector3.up*Mathf.Abs(Mathf.Sin(Time.time*5));
-                Arms.localEulerAngles = Vector3.right*0;
-            }
-            else
-            {
-                //Hold over head
-                Ball.position = PosOverHead.position;
-                Arms.localEulerAngles = Vector3.right*215;
-
-                //look at hoop
-                Player.transform.LookAt(_Target.parent.position);
-            }
-
-            // throw Ball
-            if(Input.GetMouseButton(1))
-            {
-                IsBallInHands = false;
-                //throw ball
-                IsBallFlying = true;
-                T= 0f;
-            }
-        }
+        ShootBall();
 
         //Ball is in the air
         if(IsBallFlying)
@@ -87,4 +61,50 @@ public class BasketBallController : MonoBehaviour
             
         }
     }
+
+    public void ShootBall()
+    {
+        if(IsBallInHands)
+        {
+            // throw Ball
+            if(Input.GetMouseButton(1))
+            {
+                IsBallInHands = false;
+                //throw ball
+                IsBallFlying = true;
+                T= 0f;
+            }
+        }
+    }
+
+    public void DribbleBall()
+    {
+        if(IsBallInHands)
+        {
+            if(Input.GetMouseButton(0))
+            {
+                // Dribble
+                Ball.position = PosDribble.position+ Vector3.up*Mathf.Abs(Mathf.Sin(Time.time*5));
+                Arms.localEulerAngles = Vector3.right*0;
+            }
+            
+        }
+    }
+
+    public void ShootPos()
+    {
+        if(IsBallInHands)
+        {
+            if(!Input.GetMouseButton(0))
+            {
+                //Hold over head
+                Ball.position = PosOverHead.position;
+                Arms.localEulerAngles = Vector3.right*215;
+
+                //look at hoop
+                Player.transform.LookAt(_Target.parent.position);
+            }
+        }
+    }
+
 }
